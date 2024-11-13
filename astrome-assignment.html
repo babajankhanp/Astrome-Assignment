@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrome Assignment</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            margin: 0;
+        }
+
+        .parent-container {
+            display: flex;
+            justify-self: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+
+        }
+
+        .container {
+            display: flex;
+            align-items: flex-end;
+            width: 80%;
+            height: 70vh;
+            margin-bottom: 20px;
+            background-color: black;
+            border: 20px solid black;
+            overflow: hidden;
+        }
+
+        .bar {
+            width: 100%;
+            height: 10%;
+            transition: height 1s ease-in-out;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 40px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            color: #fff;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+
+        .start-btn {
+            background-color: #28a745;
+        }
+
+        .start-btn:hover {
+            background-color: #218838;
+        }
+
+        .reset-btn {
+            background-color: #6f42c1;
+        }
+
+        .reset-btn:hover {
+            background-color: #5a3796;
+        }
+
+        .stop-btn {
+            background-color: #dc3545;
+        }
+
+        .stop-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Astrome Frontend Developer Assignment</h1>
+    <div class="parent-container">
+        <div class="container">
+            <div class="bar" style="background-color: #6840BE;"></div>
+            <div class="bar" style="background-color: #DE4899;"></div>
+            <div class="bar" style="background-color: #F55A68;"></div>
+            <div class="bar" style="background-color: #E0743E;"></div>
+            <div class="bar" style="background-color: #CC9523;"></div>
+        </div>
+        <div class="controls">
+            <button id="startBtn" class="start-btn">Start</button>
+            <button id="resetBtn" class="reset-btn">Reset</button>
+            <button id="stopBtn" class="stop-btn">Stop</button>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.bar');
+            const startBtn = document.getElementById('startBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const stopBtn = document.getElementById('stopBtn');
+
+            let animationIntervals = [];
+
+            function getRandomHeight() {
+                return Math.floor(Math.random() * 61) + 20;
+            }
+
+            function getRandomSpeed() {
+                return Math.random() * 1 + 0.5;
+            }
+
+            function startAnimation() {
+                stopAnimation();
+                bars.forEach(bar => {
+                    const randomHeight = getRandomHeight();
+                    const randomSpeed = getRandomSpeed();
+                    bar.style.transitionDuration = `${randomSpeed}s`;
+                    bar.style.height = `${randomHeight}%`;
+
+                    const interval = setInterval(() => {
+                        const newHeight = getRandomHeight();
+                        bar.style.height = `${newHeight}%`;
+                    }, randomSpeed * 1000);
+
+                    animationIntervals.push(interval);
+                });
+            }
+
+            function resetAnimation() {
+                stopAnimation();
+                bars.forEach(bar => {
+                    bar.style.height = '100%';
+                });
+            }
+
+            function stopAnimation() {
+                animationIntervals.forEach(interval => clearInterval(interval));
+                animationIntervals = [];
+            }
+
+            startBtn.addEventListener('click', startAnimation);
+            resetBtn.addEventListener('click', resetAnimation);
+            stopBtn.addEventListener('click', stopAnimation);
+        });
+
+    </script>
+</body>
+
+</html>
